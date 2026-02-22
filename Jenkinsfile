@@ -1,5 +1,4 @@
 pipeline {
-    // Run all stages on your agent
     agent { label 'java agent' }
 
     environment {
@@ -12,7 +11,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 echo "Cloning repo from GitHub..."
-                git branch: 'main', url: 'https://github.com/YOUR_USERNAME/java-quotes-app.git'
+                git branch: 'master', url: 'https://github.com/YOUR_USERNAME/java-quotes-app.git'
             }
         }
 
