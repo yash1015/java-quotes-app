@@ -7,12 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                echo 'Cloning repository from GitHub...'
-                git branch: 'main', url: 'https://github.com/https://github.com/yash1015/java-quotes-app.git/java-quotes-app.git'
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
