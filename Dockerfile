@@ -1,20 +1,11 @@
-# Use OpenJDK 17 lightweight image
 FROM eclipse-temurin:17-jdk-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy source code
-COPY src/ /app/
+COPY . .
 
-# Copy HTML file
-COPY quotes.html /app/
+RUN javac src/*.java
 
-# Compile Java file
-RUN javac Main.java
-
-# Expose port
 EXPOSE 8000
 
-# Run application
-CMD ["java", "Main"]
+CMD ["java", "-cp", "src", "Main"]
