@@ -1,8 +1,7 @@
 pipeline {
-    agent { label 'java agent' }
+    agent any
 
     environment {
-        APP_NAME = 'java-quotes-app'
         CONTAINER_NAME = 'java-container'
         DOCKER_IMAGE = 'java-app'
     }
@@ -10,21 +9,21 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                echo "Cloning repo from GitHub..."
-                git branch: 'master', url: 'https://github.com/YOUR_USERNAME/java-quotes-app.git'
+                echo 'Cloning repository from GitHub...'
+                git branch: 'main', url: 'https://github.com/YOUR_USERNAME/java-quotes-app.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                echo "Building Docker image..."
+                echo 'Building Docker image...'
                 sh 'docker build -t $DOCKER_IMAGE .'
             }
         }
 
         stage('Stop Old Container') {
             steps {
-                echo "Stopping old container if running..."
+                echo 'Stopping old container (if exists)...'
                 sh '''
                 docker stop $CONTAINER_NAME || true
                 docker rm $CONTAINER_NAME || true
@@ -34,14 +33,13 @@ pipeline {
 
         stage('Run Container') {
             steps {
-                echo "Running container..."
-                sh 'docker run -d -p 8080:8080 --name $CONTAINER_NAME $DOCKER_IMAGE'
+                echo 'Running new container...'
+                sh 'docker run -d -p 8000:8000 --name $CONTAINER_NAME $DOCKER_IMAGE'
             }
         }
 
-        stage('Post Build Info') {
+        stage('Show Running Containers') {
             steps {
-                echo "Deployment complete. Application should be running on port 8080 of the agent."
                 sh 'docker ps'
             }
         }
@@ -49,10 +47,10 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline finished successfully!"
+            echo 'Deployment successful 🚀'
         }
         failure {
-            echo "Pipeline failed. Check console logs."
+            echo 'Pipeline failed ❌ Check console logs.'
         }
     }
 }
